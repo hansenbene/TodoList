@@ -137,7 +137,7 @@ function updateTasks() {
     listItems.empty();
     if (curList) {
     for (let i = 0; i < curList.tasks.length; i++) {
-        let task = `<li class="task"><div onclick="editTask();">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button></div></li>`;
+        let task = `<li class="task"><div onclick="editTask(${i});">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button></div></li>`;
         listItems.append(task);
     }
     }
