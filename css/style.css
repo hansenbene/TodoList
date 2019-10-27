@@ -22,3 +22,10 @@
 .controls button {
     margin: 0 5px;
 }
+
+.task {
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    max-width: 40%;
+}

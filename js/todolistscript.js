@@ -120,6 +120,14 @@ function removeList (index) {
     updateLists();
 }
 
+function removeTask (index) {
+    curList.tasks.splice(index, 1);
+    for(let i = 0; i < curList.tasks.length - index; i++) { //reassign indexes for the lists to match length
+        curList.tasks[index + i].index -= 1;
+    }
+    updateLists();
+}
+
 function updateLists() {
     console.log(lists);
     let listItems = $("#listNames");
@@ -137,7 +145,7 @@ function updateTasks() {
     listItems.empty();
     if (curList) {
     for (let i = 0; i < curList.tasks.length; i++) {
-        let task = `<li class="task"><div onclick="editTask(${i});">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button></div></li>`;
+        let task = `<li class="task"><div onclick="editTask(${i});">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button><button class="deleteTask" onclick="removeTask(${i})"><i class="fas fa-trash"></i></button></div></li>`;
         listItems.append(task);
     }
     }
