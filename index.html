@@ -19,21 +19,11 @@
     <link rel="stylesheet" href="css/style.css"/>
 
     <script src="js/todolistscript.js" defer></script>
-
-    <style>
-        #listCont {
-            background-color: red;
-        }
-
-        #listDisplay {
-            background-color: green;
-        }
-    </style>
 </head>
 <body onload="getData(); updateLists();">
     <div id="container" class="row">
 
-
+        <div id="padding" class="col-1"></div>
         <div id="listCont" class="col-3">
             <p>Lists</p>
             <ul id="listNames">
@@ -45,7 +35,7 @@
             </div>
             <button type="button" class="btn btn-primary" onclick="addList();">Submit</button>
         </div>
-        <div id="listDisplay" class="col-9">
+        <div id="listDisplay" class="col-8">
             <div>
                 <div id="listTitle"></div>
                 <div id="taskBox" style="visibility: hidden">
@@ -53,9 +43,9 @@
                     <input type="text" id="taskInput" placeholder="Task" onkeyup="addTaskKeyUp(event)">
                     <button type="button" class="btn btn-primary" onclick="createTask();">Add New Task</button>
                 </div>
-                <div id="taskOptions" style="visibility: hidden">
-                    <button id="editTask"><i class="fas fa-edit"></i></button>
-                    <button id="deleteTask"><i class="fas fa-trash"></i></button>
+                <div id="listOptions" style="visibility: hidden">
+                    <button id="editList" onclick="editList()"><i class="fas fa-edit"></i></button>
+                    <button id="deleteList" onclick="removeList(curList.index)"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
             <ul id="listItems"></ul>

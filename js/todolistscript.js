@@ -27,7 +27,7 @@ class TaskObject {
         this.myNum = myNum;
         this.myname = myname;
         this.complete = false;
-        this.template = `<li class="task" onclick="editTask();">${this.myname}</li>`;
+        // this.template = `<li class="task" onclick="editTask();">${this.myname}</li>`;
     }
 
 }
@@ -81,7 +81,7 @@ function createTask() { //create a task manually since I can't get functions wit
 function displayTasks() { //so that we don't see the input for tasks if there is no list selected
 
     let taskbox = document.getElementById("taskBox");
-    let toolbox = document.getElementById("taskOptions");
+    let toolbox = document.getElementById("listOptions");
 
     if(curList) {
         taskbox.style.visibility = "visible";
@@ -100,7 +100,11 @@ function displayTasks() { //so that we don't see the input for tasks if there is
 // } //this hasn't been working because of an error that says the function AddNewTask() doesn't exist
 
 function editTask() {
-    console.log(this);
+    this.parent.contentEditable = true;
+}
+
+function editList() {
+    this.parent.contentEditable = true;
 }
 
 function removeList (index) {
@@ -113,7 +117,6 @@ function removeList (index) {
     for(let i = 0; i < lists.length - index; i++) { //reassign indexes for the lists to match lists.length
         lists[index + i].index -= 1;
     }
-
     updateLists();
 }
 
@@ -122,21 +125,27 @@ function updateLists() {
     let listItems = $("#listNames");
     listItems.empty();
     for(let i = 0; i < lists.length; i++) {
-        let list = `<li><span class="listlist" onclick="selectList(${i})">${lists[i].myname}</span><div class="controls"><button onclick="removeList(${i})"><i class="fas fa-trash"></i></button><button onclick="editList()"><i class="fas fa-edit"></button></div></li>`;
+        let list = `<li class="listlist"><div class="label" onclick="selectList(${i})">${lists[i].myname}</div><div class="controls"><button onclick="removeList(${i})"><i class="fas fa-trash"></i></button></div></li>`;
         listItems.append(list);
     }
+    updateTasks();
     saveData();
 }
 
 function updateTasks() {
-    console.log(curList.tasks);
     let listItems = $("#listItems");
     listItems.empty();
-    for(let i = 0; i < curList.tasks.length; i++) {
-        let task = `<li class="task">${curList.tasks[i].myname}</li>`;
+    if (curList) {
+    for (let i = 0; i < curList.tasks.length; i++) {
+        let task = `<li class="task"><div onclick="editTask();">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button></div></li>`;
         listItems.append(task);
     }
+    }
     saveData();
+}
+
+function completeTask(taskIndex) {
+    curList.tasks[taskIndex].complete = true;
 }
 
 function selectList(listid) { // select list to show in the list display on the right
