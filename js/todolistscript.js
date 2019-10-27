@@ -99,12 +99,46 @@ function displayTasks() { //so that we don't see the input for tasks if there is
 //
 // } //this hasn't been working because of an error that says the function AddNewTask() doesn't exist
 
-function editTask() {
-    this.parent.contentEditable = true;
+function editTask(index, currentListIndex) {
+    let selectedTask = document.getElementById(`task${currentListIndex} ${index}`);
+    selectedTask.contentEditable = "true";
+    // console.log("list " + curList.index + "task " + index);
+
+    selectedTask.addEventListener('keypress', (e) => {
+        if (e.which === 13) e.preventDefault();
+    });
+
+    selectedTask.onkeyup = function(event, ind) {
+        ind = index;
+        switch(event.which){
+            case 13:
+                curList.tasks[ind].myname = selectedTask.innerText;
+                updateTasks();
+                break;
+        }
+    }
 }
 
 function editList() {
-    this.parent.contentEditable = true;
+    let list = document.getElementById("listTitle");
+    list.contentEditable = "true";
+
+    list.addEventListener('keypress', (e) => {
+        if (e.which === 13) e.preventDefault();
+    });
+
+    list.onkeyup = function(event) {
+        switch(event.which){
+            case 13:
+                // event.preventDefault();
+                // list.innerHTML.replace(/\n/g,' ');
+                console.log(list.innerText);
+                curList.myname = list.innerText;
+                updateTasks();
+                updateLists();
+                break;
+        }
+    }
 }
 
 function removeList (index) {
@@ -145,8 +179,16 @@ function updateTasks() {
     listItems.empty();
     if (curList) {
     for (let i = 0; i < curList.tasks.length; i++) {
-        let task = `<li class="task"><div onclick="editTask(${i});">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button><button class="deleteTask" onclick="removeTask(${i})"><i class="fas fa-trash"></i></button></div></li>`;
-        listItems.append(task);
+        let task = `<li class="task"><div id="task${curList.index} ${i}" onclick="editTask(${i}, ${curList.index});" contenteditable="true">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button><button class="deleteTask" onclick="removeTask(${i})"><i class="fas fa-trash"></i></button></div></li>`;
+        console.log(curList.tasks[i]);
+        if(curList.tasks[i].complete == true) {
+            let task = `<li class="task"><div id="task${curList.index} ${i}" onclick="editTask(${i}, ${curList.index});" contenteditable="true" style="color: green">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})" style="background-color: green">Done</button><button class="deleteTask" onclick="removeTask(${i})"><i class="fas fa-trash"></i></button></div></li>`;
+            listItems.append(task);
+        }
+        else {
+            let task = `<li class="task"><div id="task${curList.index} ${i}" onclick="editTask(${i}, ${curList.index});" contenteditable="true">${curList.tasks[i].myname}</div><div class="controls"><button onclick="completeTask(${i})">Done</button><button class="deleteTask" onclick="removeTask(${i})"><i class="fas fa-trash"></i></button></div></li>`;
+            listItems.append(task);
+        }
     }
     }
     saveData();
@@ -154,6 +196,9 @@ function updateTasks() {
 
 function completeTask(taskIndex) {
     curList.tasks[taskIndex].complete = true;
+    // console.log(document.getElementById(`task ${curList.index} ${taskIndex}`));
+    // document.getElementById(`task ${curList.index} ${taskIndex}`).style.backgroundColor = "green";
+    updateTasks();
 }
 
 function selectList(listid) { // select list to show in the list display on the right
