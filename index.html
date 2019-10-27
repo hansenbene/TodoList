@@ -34,7 +34,7 @@
     <div id="container" class="row">
 
 
-        <div id="listCont" class="col-2">
+        <div id="listCont" class="col-3">
             <p>Lists</p>
             <ul id="listNames">
 
@@ -45,8 +45,19 @@
             </div>
             <button type="button" class="btn btn-primary" onclick="addList();">Submit</button>
         </div>
-        <div id="listDisplay" class="col-10">
-            <p>List</p>
+        <div id="listDisplay" class="col-9">
+            <div>
+                <div id="listTitle"></div>
+                <div id="taskBox" style="visibility: hidden">
+                    <label for="taskInput">New Task: </label>
+                    <input type="text" id="taskInput" placeholder="Task" onkeyup="addTaskKeyUp(event)">
+                    <button type="button" class="btn btn-primary" onclick="createTask();">Add New Task</button>
+                </div>
+                <div id="taskOptions" style="visibility: hidden">
+                    <button id="editTask"><i class="fas fa-edit"></i></button>
+                    <button id="deleteTask"><i class="fas fa-trash"></i></button>
+                </div>
+            </div>
             <ul id="listItems"></ul>
         </div>
 
